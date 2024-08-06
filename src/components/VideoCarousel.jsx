@@ -1,9 +1,11 @@
-import React, { useRef, useState } from "react";
-import { hightlightsSlides } from "../constants";
-import { useEffect } from "react";
-import { useGSAP } from "@gsap/react";
-import { playImg, pauseImg } from "../utils";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/all";
+gsap.registerPlugin(ScrollTrigger);
+import { useEffect, useRef, useState } from "react";
+
+import { hightlightsSlides } from "../constants";
+import { pauseImg, playImg, replayImg } from "../utils";
 
 const VideoCarousel = () => {
   const videoRef = useRef([]);
@@ -12,7 +14,7 @@ const VideoCarousel = () => {
 
   const [video, setvideo] = useState({
     isEnd: false,
-    starPlay: false,
+    startPlay: false,
     videoId: 0,
     isLastVideo: false,
     isPlaying: false,
@@ -30,7 +32,7 @@ const VideoCarousel = () => {
       onComplete: () => {
         setvideo((prev) => ({
           ...prev,
-          starPlay: true,
+          startPlay: true,
           isPlaying: true,
         }));
       },
@@ -47,9 +49,7 @@ const VideoCarousel = () => {
     }
   }, [startPlay, videoId, isPlaying, loadedData]);
 
-  const handleLoadedMetadata = (i, e) => {
-    setloadedData((prev) => [...prev, e]);
-  };
+  const handleLoadedMetadata = (i, e) => setloadedData((prev) => [...prev, e]);
 
   useEffect(() => {
     const currentProgress = 0;
